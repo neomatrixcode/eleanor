@@ -39,7 +39,7 @@ setup(
         'eleanor',
         ],
     include_package_data=True,
-    url='http://github.com/afeinstein20/eleanor',
+    url='https://github.com/neomatrixcode/eleanor',
     description='Source Extraction for TESS Full Frame Images',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -50,7 +50,7 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 3.0',
+        'Programming Language :: Python :: 3.8',
         ],
     extras_require=extras_require
     )
