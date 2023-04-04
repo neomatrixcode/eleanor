@@ -904,7 +904,7 @@ class TargetData(object):
         """
         import tensorflow as tf
 
-        tf.logging.set_verbosity(tf.logging.ERROR)
+        tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
         if data_arr is None:
             data_arr = self.tpf + 0.0
