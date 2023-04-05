@@ -903,8 +903,8 @@ class TargetData(object):
             reasonable job estimating the background more accurately in relatively crowded regions.
         """
         #import tensorflow as tf
-        import tensorflow.compat.v1 as tf
-        tf.disable_v2_behavior()
+        import tensorflow as tf
+        tf.compat.v1.disable_v2_behavior()
 
         tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
@@ -1024,21 +1024,21 @@ class TargetData(object):
 
         mean += bkg
 
-        data = tf.placeholder(dtype=tf.float64, shape=data_arr[0].shape)
-        derr = tf.placeholder(dtype=tf.float64, shape=data_arr[0].shape)
-        bkgval = tf.placeholder(dtype=tf.float64)
+        data = tf.compat.v1.placeholder(dtype=tf.float64, shape=data_arr[0].shape)
+        derr = tf.compat.v1.placeholder(dtype=tf.float64, shape=data_arr[0].shape)
+        bkgval = tf.compat.v1.placeholder(dtype=tf.float64)
 
         if likelihood == 'gaussian':
-            nll = tf.reduce_sum(tf.truediv(tf.squared_difference(mean, data), derr))
+            nll = tf.reduce_sum(tf.truediv(tf.math.squared_difference(mean, data), derr))
         elif likelihood == 'poisson':
-            nll = tf.reduce_sum(tf.subtract(mean+bkgval, tf.multiply(data+bkgval, tf.log(mean+bkgval))))
+            nll = tf.reduce_sum(tf.subtract(mean+bkgval, tf.multiply(data+bkgval, tf.math.log(mean+bkgval))))
         else:
             raise ValueError("likelihood argument {0} not supported".format(likelihood))
 
         grad = tf.gradients(nll, var_list)
 
-        sess = tf.Session(config=tf.ConfigProto(device_count={'GPU': 0}))
-        sess.run(tf.global_variables_initializer())
+        sess = tf.compat.v1.Session(config=tf.compat.v1.ConfigProto(device_count={'GPU': 0}))
+        sess.run(tf.compat.v1.global_variables_initializer())
 
         optimizer = tf.contrib.opt.ScipyOptimizerInterface(nll, var_list, method='TNC', tol=1e-4, var_to_bounds=var_to_bounds)
 
