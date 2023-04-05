@@ -944,6 +944,10 @@ class TargetData(object):
         xshift = tf.Variable(0.0, dtype=tf.float64)
         yshift = tf.Variable(0.0, dtype=tf.float64)
 
+        cero = tf.Variable(0)
+        minushalf = tf.Variable(-0.5, dtype=tf.float64)
+        half = tf.Variable(0.5, dtype=tf.float64)
+
         if (model == 'gaussian'):
 
             gaussian = Gaussian(shape=data_arr.shape[1:], col_ref=0, row_ref=0)
@@ -961,12 +965,15 @@ class TargetData(object):
 
             var_list = [flux, xshift, yshift, a, b, c, bkg]
 
-            var_to_bounds = {flux: (0, np.infty),
-                             xshift: (-1.0, 1.0),
-                             yshift: (-1.0, 1.0),
-                             a: (0, np.infty),
-                             b: (-0.5, 0.5),
-                             c: (0, np.infty)
+            one = tf.Variable(1.0, dtype=tf.float64)
+            minusone = tf.Variable(-1.0, dtype=tf.float64)
+
+            var_to_bounds = {flux: (cero.ref(), np.infty),
+                             xshift: (minusone.ref(), one.ref()),
+                             yshift: (minusone.ref(), one.ref()),
+                             a: (cero.ref(), np.infty),
+                             b: (minushalf.ref(), half.ref()),
+                             c: (cero.ref(), np.infty)
                             }
 
         elif model == 'moffat':
@@ -987,13 +994,18 @@ class TargetData(object):
 
             var_list = [flux, xshift, yshift, a, b, c, beta, bkg]
 
-            var_to_bounds = {flux: (0, np.infty),
-                             xshift: (-2.0, 2.0),
-                             yshift: (-2.0, 2.0),
-                             a: (0, 3.0),
-                             b: (-0.5, 0.5),
-                             c: (0, 3.0),
-                             beta: (0, 10)
+            two = tf.Variable(2.0, dtype=tf.float64)
+            minustwo = tf.Variable(-2.0, dtype=tf.float64)
+            tree = tf.Variable(3.0, dtype=tf.float64)
+            ten = tf.Variable(10.0, dtype=tf.float64)
+
+            var_to_bounds = {flux: (cero.ref(), np.infty),
+                             xshift: (minustwo.ref(), two.ref()),
+                             yshift: (minustwo.ref(), two.ref()),
+                             a: (cero.ref(), tree.ref()),
+                             b: (minushalf.ref(), half.ref()),
+                             c: (cero.ref(), tree.ref()),
+                             beta: (cero.ref(), ten.ref())
                             }
 
             betaout = np.zeros(len(data_arr))
