@@ -944,7 +944,7 @@ class TargetData(object):
         xshift = tf.Variable(0.0, dtype=tf.float64)
         yshift = tf.Variable(0.0, dtype=tf.float64)
 
-        cero = tf.Variable(0)
+        cero = tf.Variable(0.0, dtype=tf.float64)
         minushalf = tf.Variable(-0.5, dtype=tf.float64)
         half = tf.Variable(0.5, dtype=tf.float64)
 
@@ -968,12 +968,12 @@ class TargetData(object):
             one = tf.Variable(1.0, dtype=tf.float64)
             minusone = tf.Variable(-1.0, dtype=tf.float64)
 
-            var_to_bounds = {flux: (cero.ref(), np.infty),
-                             xshift: (minusone.ref(), one.ref()),
-                             yshift: (minusone.ref(), one.ref()),
-                             a: (cero.ref(), np.infty),
-                             b: (minushalf.ref(), half.ref()),
-                             c: (cero.ref(), np.infty)
+            var_to_bounds = {flux.ref(): (cero.ref(), np.infty),
+                             xshift.ref(): (minusone.ref(), one.ref()),
+                             yshift.ref(): (minusone.ref(), one.ref()),
+                             a.ref(): (cero.ref(), np.infty),
+                             b.ref(): (minushalf.ref(), half.ref()),
+                             c.ref(): (cero.ref(), np.infty)
                             }
 
         elif model == 'moffat':
@@ -999,13 +999,13 @@ class TargetData(object):
             tree = tf.Variable(3.0, dtype=tf.float64)
             ten = tf.Variable(10.0, dtype=tf.float64)
 
-            var_to_bounds = {flux: (cero.ref(), np.infty),
-                             xshift: (minustwo.ref(), two.ref()),
-                             yshift: (minustwo.ref(), two.ref()),
-                             a: (cero.ref(), tree.ref()),
-                             b: (minushalf.ref(), half.ref()),
-                             c: (cero.ref(), tree.ref()),
-                             beta: (cero.ref(), ten.ref())
+            var_to_bounds = {flux.ref(): (cero.ref(), np.infty),
+                             xshift.ref(): (minustwo.ref(), two.ref()),
+                             yshift.ref(): (minustwo.ref(), two.ref()),
+                             a.ref(): (cero.ref(), tree.ref()),
+                             b.ref(): (minushalf.ref(), half.ref()),
+                             c.ref(): (cero.ref(), tree.ref()),
+                             beta.ref(): (cero.ref(), ten.ref())
                             }
 
             betaout = np.zeros(len(data_arr))
