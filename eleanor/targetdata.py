@@ -902,7 +902,9 @@ class TargetData(object):
             target, effectively masking other nearby, bright stars. This strategy appears to do a
             reasonable job estimating the background more accurately in relatively crowded regions.
         """
-        import tensorflow as tf
+        #import tensorflow as tf
+        import tensorflow.compat.v1 as tf
+        tf.disable_v2_behavior()
 
         tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
